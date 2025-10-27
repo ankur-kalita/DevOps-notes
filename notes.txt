@@ -15,7 +15,7 @@ Class 1 -> Microservices Architecture
 
 3) DNS -> A registry of ip adresses for human readable domain name.
 
-4) Service Discovery -> keep track of active service instances.
+4) Service Discovery -> keep track of active service instances for dynamic routing.
 
 5) Sync and Async communication -> f
  sync -> caller wait fr responses...fast but risky, if one goes down, chain reaction.
