@@ -1,0 +1,35 @@
+Class 1 -> Microservices Architecture
+
+1) 3 axes of scalability ->
+ x axis means horizontal scalling, its like load balancers distribute the traffic.
+ y axis means vertical scalling, its like functional decomposition into microservices.
+ z axis means sharding 
+
+2) Load balancing ->
+ Distribute the incoming traffic across instances to maintain avaibility and scalability.
+ 2 types of balancers -> 
+    i) L4 load balancer -> knows only abt ip, port, tcp/udp...jst send the traffic to a
+        free server, super fast
+    ii) L7 load balancer -> can read the http request content and act accordingly...
+        slightly slower.
+
+3) DNS -> A registry of ip adresses for human readable domain name.
+
+4) Service Discovery -> keep track of active service instances.
+
+5) Sync and Async communication -> f
+ sync -> caller wait fr responses...fast but risky, if one goes down, chain reaction.
+ async -> caller sends messages and continues...message broker in between: kafka
+
+6) Publish-Subscribe Model & Skew Model (async messaging patterns) ->
+    PSM -> Producer sends one message , many consumers can listen.
+    Skew -> One message , only one consumer picks it.
+
+7) Event Syncing -> Services publish events to an event bus (Kafka). Other services
+    subscribe to events for reactive workflows.
+
+8) API -> Single entry point to all backend microservices.
+
+9) Externalizing Logs -> Never store logs inside containers. They die, logs die. 💀
+
+10) 12 Factor app -> The bible for cloud native-apps.
