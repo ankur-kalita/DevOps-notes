@@ -33,3 +33,82 @@ Class 1 -> Microservices Architecture
 9) Externalizing Logs -> Never store logs inside containers. They die, logs die. 💀
 
 10) 12 Factor app -> The bible for cloud native-apps.
+
+
+
+Class 2 -> DevOps Introduction
+
+1) What is DevOps -> DevOps basically make a bridge between software development and IT services to deliver application
+and services faster and reliable. It is basically set of philosphy, tools etc...
+
+2) SDLC lifecylce -> SDLC is a structured process to build software from idea and deliver and maintanace. Those are planning ,
+analysis, design, implementation, testing and integration, maintanance. SDLC mane software development life cycle.
+
+3) Zero Down Time Upgrade -> Deploying a new version of ur application without stopping the existing version of the application.
+
+4) What is there in devops which is not ci-cd -> DevOps practices beyond ci-cd such as IaC, Monitoring & Logging, Version 
+ control, security, Collaboration and culture, Containerization etc...ci-cd is only one part of devops.
+
+5) Artifacts -> Final packaged output of a build that can be deployed...ex as JARs, EXE, ZIP, Docker images
+
+6) DevSecOps -> Development + Security + Operation
+
+7) Linting -> Static code checks for style rules, formatting, syntax errors etc...Ex as EsLint
+
+8) Shift-Left Approach -> Testing & security done earlier in the SDLC...instead of testing after coding, shift tests to:
+ requirements, design, code-review and build stage...
+
+9) Performance testing tools -> 
+ Load testing -> JMeter, LoadRunner, Gatling
+ Stress testing -> Locust
+ APM Monitoring -> Grafana
+
+10) Software Composition Analysis (SCA) -> check open source dependencies for vulnarabilities and license issues.
+
+11) Static Application Security Testing (SAST) -> Code level security scan without running the program. No runtime behaviour testing. ex as SonarQube.
+
+12) Dynamic Application Security Testing (DAST) -> Scan running application and find runtime vulnarabilities.
+
+13) CI/CD -> 
+ CI -> Code integration and automatically build and test
+ CD -> automatically deploy to environments
+
+14) Continous delivery -> code is ready for release and does require human approval.
+    Continous deployment -> code automatically goes to prod, doesnot require human approval.
+
+15) Artifact Repository tools -> 
+
+16) Even if using Docker Images, why Nexus/JFrog?
+
+ * Store other artifacts too (JARs, Helm charts, packages)
+ * Versioning & retention policies
+ * Faster local access → don’t pull from internet always
+ * Secure + governance + scanning
+ * Works across multi-cloud environments
+
+Docker Hub ≠ enterprise-grade governance.
+
+17) What is SonarQube?
+
+ A code quality and security scanning tool.
+ It performs:
+  * SAST
+  * Code smells detection
+  * Maintainability metrics
+  * Bug + Vulnerability reports
+  * Coverage tracking
+
+18) High Cyclomatic Complexity ->
+
+ Metric that shows:
+ * Too many decision paths in code (if/else)
+ * Hard to test & maintain
+High value = bad → needs refactor
+
+19) Code Smells (SonarQube)
+
+ Code patterns that may cause future issues:
+ * Duplicate code
+ * Long methods
+ * Dead code
+ * Bad naming
