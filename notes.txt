@@ -242,3 +242,18 @@ Class 3 -> Linux basics & useful commands
 17) Kernel -> interface b/w hardeware, manage cpu, manage memory and hard disk...
 
 18) Linux has multikernel architecture.
+
+
+Class 4 -> Shell Scripting 
+
+1) #!/bin/bash -> to define shebang ...It appears at the very top of a script file and tells the operating system which interpreter should be used to execute the script.
+
+
+Class 5 -> Docker 
+
+1) Docker is platform for creating and managing containers.
+2) Container is something like virtual machine.
+3) Virtual machine are something like physical machine.
+4) If it fits it ships
+5) docker run hello-world -- docker run always create a new Container.
+6) docker run -it ubuntu bash -- inside virtual machine
