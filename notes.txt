@@ -257,3 +257,16 @@ Class 5 -> Docker
 4) If it fits it ships
 5) docker run hello-world -- docker run always create a new Container.
 6) docker run -it ubuntu bash -- inside virtual machine
+
+Class 6 -> 
+
+1) Hypervisor allows u to create virtual machine. 
+2) Hypervisor has its own operating system.
+3) Docker used Hyper-V to run a small Linux VM.
+4) BIOS wakes the CPU, RAM, keyboard, storage, etc. BIOS wakes the CPU, RAM, keyboard, storage, etc. Finally, it hands control to the OS (Windows/Linux etc.)
+5) Once BIOS knows which storage device to boot from, it looks at the first sector of that storage. That first tiny sector (512 bytes) is called MBR (Master Boot record)
+6) MBR contains:
+    Bootloader (tiny code that starts the OS loader)
+    Partition table (a map of how your drive is divided)
+7) docker container inspect container_id
+8) docker run -d nginx
