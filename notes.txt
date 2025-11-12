@@ -270,3 +270,101 @@ Class 6 ->
     Partition table (a map of how your drive is divided)
 7) docker container inspect container_id
 8) docker run -d nginx
+
+Class 7 ->
+
+Docker Commands — quick reference
+ - docker run [OPTIONS] IMAGE [COMMAND] [ARG...] 
+   * create and start a container from IMAGE.
+   * common options: -d (detached), -it (interactive + tty), --name NAME, --rm (remove after exit), -p HOST:CONTAINER (port mapping), -v HOST:CONTAINER (bind mount/volume), --network NAME.
+   Example: docker run -d --name web -p 8080:80 nginx
+
+ - docker build -t myimage:tag PATH
+   * builds image from a Dockerfile in PATH. Use --no-cache, --target for multi-stage builds.
+   Example: docker build -t app:latest .
+
+ - docker pull IMAGE
+   * download image from registry (Docker Hub, private registry).
+
+ - docker push IMAGE
+   * upload image to a registry.
+
+ - docker images
+   * list local images.
+
+ - docker ps / docker ps -a
+   * list running / all containers.
+
+ - docker logs [OPTIONS] CONTAINER
+   * fetch container stdout/stderr (useful for debugging).
+
+ - docker exec -it CONTAINER CMD
+   * run a command inside a running container (e.g., bash).
+
+ - docker inspect OBJECT
+   * show low-level JSON details about images/containers/networks.
+
+ - docker rm CONTAINER / docker rmi IMAGE
+   * remove container / image.
+
+ - docker save IMAGE > image.tar / docker load < image.tar
+   * export/import images as tarball.
+
+ - docker volume create/list/rm
+   * manage named volumes.
+
+ - docker network create/list/rm
+   * manage docker networks.
+
+Dockerfile basics (very short)
+ - FROM baseimage
+ - RUN commands (creates a layer)
+ - COPY / ADD files
+ - ENV, WORKDIR, EXPOSE, USER
+ - CMD / ENTRYPOINT define runtime process
+ - Each Dockerfile instruction produces a layer; ordering matters for cache.
+
+Image internals — how images are built & stored
+ - Images are immutable sets of filesystem layers (read-only). Each Dockerfile instruction that changes filesystem typically creates a new layer.
+ - Layers are content-addressable blobs stored by the daemon (overlay2 is the common storage driver).
+ - Image metadata: manifest (list of layers), config (env, cmd, exposed ports), and content-addressable layer blobs.
+ - Build process:
+   1) Dockerfile parsed by build engine (buildkit/dockerd).
+   2) Each instruction executed in an ephemeral container; filesystem diffs become layers.
+   3) Layers are stored and referenced by digest; final image manifest points to layers and config.
+ - Registries store image manifests and layer blobs; docker pull/fetch downloads blobs referenced by manifest.
+
+Container internals — how a container is created & run
+ - Container = runtime instance of an image + a writable layer (copy-on-write).
+ - Key components:
+   * Docker daemon (dockerd) — manages images, containers, networks, volumes.
+   * containerd — daemon that handles container lifecycle (images, snapshots, containers).
+   * runc (OCI runtime) — creates namespaces and starts the container process.
+ - Creation steps (simplified):
+   1) Client asks dockerd to create container from image.
+   2) daemon creates a writable snapshot on top of image read-only layers (overlay with copy-on-write).
+   3) daemon prepares container config (namespace, cgroups, mounts, env, user, capabilities).
+   4) containerd/runc create the container: set up Linux namespaces (pid, net, mnt, ipc, uts, user) and apply cgroups for resource limits.
+   5) runc forks and execs the container's init process (PID 1 inside namespace). Docker attaches stdio and networking according to the config.
+ - Isolation mechanisms:
+   * Namespaces isolate filesystem, process tree, network, UTS (hostname), IPC, user.
+   * cgroups limit CPU, memory, IO resources.
+   * Seccomp, AppArmor / SELinux provide syscall and MAC-level controls.
+ - Filesystem behavior:
+   * Image layers are read-only. Writable layer (upper) stores container changes; when files are modified, copy-on-write duplicates them into the writable layer.
+   * Volumes and bind mounts bypass the image layers and persist data outside container's writable layer.
+
+Common runtime pieces and flow
+ - docker client -> dockerd -> containerd -> runc -> kernel
+ - Logs typically go to stdout/stderr of PID 1 and are collected by the daemon (docker logs / logging drivers).
+ - Networking: default bridge network + docker-proxy or userland routing; modern setups use libnetwork and bridge/overlay drivers.
+
+Concise troubleshooting hints
+ - If container won't start: docker logs, docker inspect, check ENTRYPOINT/CMD, check permissions for mounted volumes.
+ - To see filesystem layers: docker history IMAGE
+ - To see runtime namespaces and processes: lsns, ps auxf, inspect with docker inspect and look for Mounts/Config/HostConfig.
+
+Summary
+ - Docker CLI offers commands to build, run, inspect, and manage images/containers.
+ - Images are layered, immutable artifacts built from Dockerfiles and stored as blobs+manifests.
+ - Containers are isolated runtime instances created by combining image layers with a writable layer, using kernel namespaces and cgroups, orchestrated by dockerd/containerd and executed via an OCI runtime (runc).
