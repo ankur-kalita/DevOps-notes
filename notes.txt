@@ -368,3 +368,46 @@ Summary
  - Docker CLI offers commands to build, run, inspect, and manage images/containers.
  - Images are layered, immutable artifacts built from Dockerfiles and stored as blobs+manifests.
  - Containers are isolated runtime instances created by combining image layers with a writable layer, using kernel namespaces and cgroups, orchestrated by dockerd/containerd and executed via an OCI runtime (runc).
+
+
+Class 8 ->
+
+Docker — commands to create images (quick)
+
+ - Build from a Dockerfile (preferred)
+   docker build -t myimage:latest PATH
+   # Example: build from current dir
+   docker build -t myapp:1.0 .
+
+   Useful flags:
+    * --file DockerfilePath (or -f)
+    * --build-arg KEY=VALUE
+    * --no-cache
+    * --target stage (multi-stage builds)
+    * --platform linux/amd64 (with buildx for multi-arch)
+
+ - Create an image from a running/stopped container
+   docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+   # Example: snapshot a container
+   docker commit mycontainer myimage:fromcontainer
+
+ - Import image from a tar / remote stream
+   docker import < filesystem.tar myimage:tag
+   # or load an exported image tar
+   docker load < image.tar
+
+ - Pull from registry (creates local image)
+   docker pull repository/image:tag
+   # Example:
+   docker pull nginx:latest
+
+ - Save image to tar (export) and transfer
+   docker save -o image.tar myimage:tag
+   # then on target host:
+   docker load < image.tar
+
+Notes:
+ - Prefer docker build for reproducible, version-controlled images via Dockerfile.
+ - docker commit is useful for quick ad-hoc snapshots but not for production workflows.
+ - Use registries (docker push / pull) to distribute images.
+
